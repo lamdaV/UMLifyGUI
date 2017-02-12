@@ -12,6 +12,11 @@
       "problem.IDecryption",
       "problem.IEncryption",
       "problem.SubstitutionCipher",
+      "decoratorDummy.BadConcreteDecorator",
+      "decoratorDummy.BadDecorator",
+      "decoratorDummy.Component",
+      "decoratorDummy.GoodConcreteDecorator",
+      "decoratorDummy.GoodDecorator",
       "java.io.FilterInputStream",
       "java.io.InputStream"
     ],
