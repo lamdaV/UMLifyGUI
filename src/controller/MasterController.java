@@ -4,11 +4,10 @@ import app.UMLEngine;
 import config.IConfiguration;
 import javafx.event.ActionEvent;
 import javafx.fxml.FXML;
-import javafx.scene.control.Tab;
-import javafx.scene.control.TabPane;
-import javafx.scene.control.TextArea;
-import javafx.scene.control.TextField;
+import javafx.scene.control.*;
 import javafx.scene.web.WebView;
+import javafx.stage.FileChooser;
+import javafx.stage.Window;
 import runner.RunnerConfiguration;
 import parser.ConfigParser;
 import viewRunner.ViewerRunner;
@@ -22,9 +21,15 @@ import java.net.URLClassLoader;
 public class MasterController {
     private ViewerRunner viewRunner;
     private ConfigParser configParser;
+    private FileChooser fileChooser;
 
     @FXML
     private TextField jarPath;
+
+    @FXML
+    private Button browseJar;
+    @FXML
+    private Button browseConfig;
     @FXML
     private TextField configPath;
     @FXML
@@ -44,18 +49,19 @@ public class MasterController {
     public void initialize() {
         this.configParser = new ConfigParser();
         this.viewRunner = new ViewerRunner(this.viewer.getEngine());
+        this.fileChooser = new FileChooser();
     }
 
     @FXML
     protected void addJar(ActionEvent event) {
         try {
             String path = this.jarPath.getText();
-            log("jarPath: " + path);
+            log("[ INFO ] adding jarPath: " + path);
             addPath(path);
             this.jarPath.clear();
         } catch (Exception e) {
             e.printStackTrace();
-            this.logger.appendText(e.toString() + "\n");
+            this.logger.appendText(e.toString());
         }
     }
 
@@ -79,7 +85,7 @@ public class MasterController {
     protected void addConfig(ActionEvent event) {
         try {
             String path = this.configPath.getText();
-            log("configPath: " + path);
+            log("[ INFO ] adding configPath: " + path);
             this.configParser.setConfigPath(path);
             this.configPath.clear();
         } catch (Exception e) {
@@ -91,14 +97,15 @@ public class MasterController {
     @FXML
     protected void start(ActionEvent actionEvent) {
         try {
-            log("starting UMLify");
+            log("[ INFO ] Starting UMLify...");
             IConfiguration config = this.configParser.create();
             Method getInstanceMethod = UMLEngine.class.getDeclaredMethod("getInstance", IConfiguration.class);
             getInstanceMethod.setAccessible(true); //if security settings allow this
             Runnable engine = (Runnable) getInstanceMethod.invoke(null, config); //use null if the method is static
             engine.run();
+            log("[ INFO ] UMLify completed");
 
-            log("loading image to viewer");
+            log("[ INFO ] Loading image to viewer");
             this.viewRunner.setConfig(config.createConfiguration(RunnerConfiguration.class));
             viewRunner.run();
             this.tabPane.getSelectionModel().select(this.viewerTab);
@@ -106,6 +113,41 @@ public class MasterController {
             e.printStackTrace();
             log(e.toString());
         }
+    }
+
+    @FXML
+    protected void browseJar(ActionEvent event) {
+        FileChooser.ExtensionFilter jarFilter = new FileChooser.ExtensionFilter("Jar file", "*.jar");
+        File jarFile = browse(this.browseJar.getScene().getWindow(), jarFilter, "Browse for Jar");
+
+        if (jarFile != null) {
+            log("[ INFO ] adding jarPath: " + jarFile.toString());
+            try {
+                addPath(jarFile.toString());
+            } catch (Exception e) {
+                e.printStackTrace();
+                log(e.toString());
+            }
+        }
+    }
+
+    @FXML
+    protected void browseConfig(ActionEvent event) {
+        FileChooser.ExtensionFilter configFilter = new FileChooser.ExtensionFilter("config extensions", "*.json", "*.JSON");
+        File configFile = browse(this.browseConfig.getScene().getWindow(), configFilter, "Browse for Config");
+
+        if (configFile != null) {
+            log("[ INFO ] adding configPath: " + configFile.toString());
+            this.configParser.setConfigPath(configFile.toString());
+        }
+    }
+
+    private File browse(Window rootWindow, FileChooser.ExtensionFilter filter, String title) {
+        this.fileChooser.getExtensionFilters().clear();
+        this.fileChooser.getExtensionFilters().add(filter);
+        this.fileChooser.setTitle(title);
+
+        return this.fileChooser.showOpenDialog(rootWindow);
     }
 
     private void log(String text) {
