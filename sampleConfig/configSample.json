@@ -1,0 +1,30 @@
+{
+	"runner": {
+		"executablePath": "dot",
+		"outputFormat": "svg",
+		"outputDir": "./output",
+		"fileName": "sample"
+	},
+	"model": {
+		"classes": [
+			"problem.DecryptionInputStream",
+			"problem.EncryptionOutputStream",
+			"problem.IDecryption",
+			"problem.IEncryption",
+			"problem.SubstitutionCipher",
+			"java.io.FilterInputStream",
+			"java.io.InputStream"
+		],
+		"isRecursive": false,
+		"blackList": [],
+		"verbose": "false"
+	},
+	"engine": {
+		"analyzer_key": [
+			"analyzer.relationParser.RelationParserAnalyzer",
+			"analyzer.decorator.BadDecoratorAnalyzer",
+			"analyzer.adapter.AdapterDetectorAnalyzer",
+			"analyzer.decorator.GoodDecoratorAnalyzer"
+		]
+	}
+}
