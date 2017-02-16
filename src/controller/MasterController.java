@@ -10,6 +10,8 @@ import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import runner.RunnerConfiguration;
 import parser.ConfigParser;
+import parser.IConfigurationParser;
+import parser.PropertiesConfiguration;
 import viewRunner.ViewerRunner;
 
 import java.io.File;
@@ -20,7 +22,7 @@ import java.net.URLClassLoader;
 
 public class MasterController {
     private ViewerRunner viewRunner;
-    private ConfigParser configParser;
+    private IConfigurationParser configParser;
     private FileChooser fileChooser;
 
     @FXML
@@ -47,7 +49,7 @@ public class MasterController {
 
     @FXML
     public void initialize() {
-        this.configParser = new ConfigParser();
+        this.configParser = new PropertiesConfiguration();
         this.viewRunner = new ViewerRunner(this.viewer.getEngine());
         this.fileChooser = new FileChooser();
     }
@@ -133,7 +135,7 @@ public class MasterController {
 
     @FXML
     protected void browseConfig(ActionEvent event) {
-        FileChooser.ExtensionFilter configFilter = new FileChooser.ExtensionFilter("config extensions", "*.json", "*.JSON");
+        FileChooser.ExtensionFilter configFilter = new FileChooser.ExtensionFilter("config extensions", "*.json", "*.JSON","*.properties");
         File configFile = browse(this.browseConfig.getScene().getWindow(), configFilter, "Browse for Config");
 
         if (configFile != null) {

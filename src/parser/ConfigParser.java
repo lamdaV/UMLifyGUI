@@ -12,7 +12,7 @@ import java.util.Scanner;
 /**
  * Created by lamd on 2/11/2017.
  */
-public class ConfigParser implements ConfigurationFactory {
+public class ConfigParser implements IConfigurationParser {
     private String configPath;
 
     public ConfigParser() {
