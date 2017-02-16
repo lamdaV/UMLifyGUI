@@ -12,13 +12,13 @@ import java.util.Scanner;
 /**
  * Configuration Parser for Properties files.
  */
-public class PropertiesConfigurationParser implements IConfigurationParser {
+public class PropertiesParser implements IParser {
     private String path;
 
     /**
-     * Constructs a PropertiesConfigurationParser.
+     * Constructs a PropertiesParser.
      */
-    public PropertiesConfigurationParser() {
+    public PropertiesParser() {
         this.path = "";
     }
 

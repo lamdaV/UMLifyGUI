@@ -8,8 +8,10 @@ import javafx.scene.control.*;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import parser.ConfigurationParser;
 import parser.IConfigurationParser;
-import parser.PropertiesConfigurationParser;
+import parser.JSONParser;
+import parser.PropertiesParser;
 import runner.RunnerConfiguration;
 import viewRunner.ViewerRunner;
 
@@ -51,7 +53,9 @@ public class MasterController {
 
     @FXML
     public void initialize() {
-        this.configParser = new PropertiesConfigurationParser();
+        this.configParser = new ConfigurationParser();
+        this.configParser.addParser("json", new JSONParser());
+        this.configParser.addParser("properties", new PropertiesParser());
         this.viewRunner = new ViewerRunner(this.viewer.getEngine());
         this.fileChooser = new FileChooser();
     }
@@ -70,6 +74,8 @@ public class MasterController {
     }
 
     /**
+     * Add a given file at path s to the class path.
+     * <p>
      * Source: https://stackoverflow.com/questions/7884393/can-a-directory-be-added-to-the-class-path-at-runtime
      *
      * @param s Path of the JAR to dynamically load.

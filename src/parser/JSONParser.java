@@ -13,13 +13,13 @@ import java.util.Scanner;
  * <p>
  * Created by lamd on 2/11/2017.
  */
-public class JSONConfigurationParser implements IConfigurationParser {
+public class JSONParser implements IParser {
     private String configPath;
 
     /**
      * Constructs a JSON Configuration Parser.
      */
-    public JSONConfigurationParser() {
+    public JSONParser() {
         this.configPath = "";
     }
 
