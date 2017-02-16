@@ -1,7 +1,6 @@
 package parser;
 
 import config.Configuration;
-import config.ConfigurationFactory;
 import config.IConfiguration;
 import org.json.JSONObject;
 

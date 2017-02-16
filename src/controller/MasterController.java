@@ -8,10 +8,9 @@ import javafx.scene.control.*;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
-import runner.RunnerConfiguration;
-import parser.ConfigParser;
 import parser.IConfigurationParser;
 import parser.PropertiesConfiguration;
+import runner.RunnerConfiguration;
 import viewRunner.ViewerRunner;
 
 import java.io.File;
@@ -135,7 +134,7 @@ public class MasterController {
 
     @FXML
     protected void browseConfig(ActionEvent event) {
-        FileChooser.ExtensionFilter configFilter = new FileChooser.ExtensionFilter("config extensions", "*.json", "*.JSON","*.properties");
+        FileChooser.ExtensionFilter configFilter = new FileChooser.ExtensionFilter("config extensions", "*.json", "*.JSON", "*.properties");
         File configFile = browse(this.browseConfig.getScene().getWindow(), configFilter, "Browse for Config");
 
         if (configFile != null) {

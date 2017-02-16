@@ -12,8 +12,8 @@ import java.nio.file.Paths;
  * Created by lamd on 1/11/2017.
  */
 public class ViewerRunner implements Runnable {
-    private RunnerConfiguration config;
     private final WebEngine engine;
+    private RunnerConfiguration config;
 
     public ViewerRunner(WebEngine engine) {
         this(null, engine);
