@@ -9,7 +9,7 @@ import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
 import parser.IConfigurationParser;
-import parser.PropertiesConfiguration;
+import parser.PropertiesConfigurationParser;
 import runner.RunnerConfiguration;
 import viewRunner.ViewerRunner;
 
@@ -19,6 +19,9 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+/**
+ * The controller of the fadgui fxml. It controls the flow of data between tabs.
+ */
 public class MasterController {
     private ViewerRunner viewRunner;
     private IConfigurationParser configParser;
@@ -48,7 +51,7 @@ public class MasterController {
 
     @FXML
     public void initialize() {
-        this.configParser = new PropertiesConfiguration();
+        this.configParser = new PropertiesConfigurationParser();
         this.viewRunner = new ViewerRunner(this.viewer.getEngine());
         this.fileChooser = new FileChooser();
     }
@@ -69,8 +72,8 @@ public class MasterController {
     /**
      * Source: https://stackoverflow.com/questions/7884393/can-a-directory-be-added-to-the-class-path-at-runtime
      *
-     * @param s
-     * @throws Exception
+     * @param s Path of the JAR to dynamically load.
+     * @throws Exception If Class is unable to be loaded.
      */
     private void addPath(String s) throws Exception {
         File f = new File(s);
