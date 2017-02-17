@@ -3,8 +3,7 @@ package parser;
 import config.ConfigurationFactory;
 
 /**
- * A ConfigurationParser Interface for controller use.
- *
+ * A Parser Interface.
  */
 public interface IParser extends ConfigurationFactory {
     /**
