@@ -1,7 +1,6 @@
 package parser;
 
 import config.Configuration;
-import config.ConfigurationFactory;
 import config.IConfiguration;
 import org.json.JSONObject;
 
@@ -10,12 +9,17 @@ import java.io.FileNotFoundException;
 import java.util.Scanner;
 
 /**
+ * JSON Configuration Parser.
+ * <p>
  * Created by lamd on 2/11/2017.
  */
-public class ConfigParser implements ConfigurationFactory {
+public class JSONParser implements IParser {
     private String configPath;
 
-    public ConfigParser() {
+    /**
+     * Constructs a JSON Configuration Parser.
+     */
+    public JSONParser() {
         this.configPath = "";
     }
 
@@ -26,8 +30,8 @@ public class ConfigParser implements ConfigurationFactory {
     /**
      * Reads a JSON file and returns its JSONObject.
      *
-     * @return
-     * @throws FileNotFoundException
+     * @return JSONObject representing the JSON.
+     * @throws FileNotFoundException If the Scanner cannot find the JSON file path.
      */
     private JSONObject readJsonObject() throws FileNotFoundException {
         if (this.configPath.isEmpty()) {
@@ -36,7 +40,7 @@ public class ConfigParser implements ConfigurationFactory {
 
         Scanner scanner = null;
         try {
-            scanner = new Scanner(new File(configPath));
+            scanner = new Scanner(new File(this.configPath));
 
             StringBuilder json = new StringBuilder();
             while (scanner.hasNextLine()) {
@@ -55,7 +59,7 @@ public class ConfigParser implements ConfigurationFactory {
      * This method creates a new configuration based on the arguments passed
      * into the constructor
      *
-     * @throws Exception
+     * @throws FileNotFoundException Configuration Path is invalid.
      */
     @Override
     public IConfiguration create() throws FileNotFoundException {

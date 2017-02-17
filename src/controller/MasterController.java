@@ -8,8 +8,11 @@ import javafx.scene.control.*;
 import javafx.scene.web.WebView;
 import javafx.stage.FileChooser;
 import javafx.stage.Window;
+import parser.ConfigurationParser;
+import parser.IConfigurationParser;
+import parser.JSONParser;
+import parser.PropertiesParser;
 import runner.RunnerConfiguration;
-import parser.ConfigParser;
 import viewRunner.ViewerRunner;
 
 import java.io.File;
@@ -18,9 +21,12 @@ import java.net.URI;
 import java.net.URL;
 import java.net.URLClassLoader;
 
+/**
+ * The controller of the fadgui fxml. It controls the flow of data between tabs.
+ */
 public class MasterController {
     private ViewerRunner viewRunner;
-    private ConfigParser configParser;
+    private IConfigurationParser configParser;
     private FileChooser fileChooser;
 
     @FXML
@@ -47,7 +53,9 @@ public class MasterController {
 
     @FXML
     public void initialize() {
-        this.configParser = new ConfigParser();
+        this.configParser = new ConfigurationParser();
+        this.configParser.addParser("json", new JSONParser());
+        this.configParser.addParser("properties", new PropertiesParser());
         this.viewRunner = new ViewerRunner(this.viewer.getEngine());
         this.fileChooser = new FileChooser();
     }
@@ -66,10 +74,12 @@ public class MasterController {
     }
 
     /**
+     * Add a given file at path s to the class path.
+     * <p>
      * Source: https://stackoverflow.com/questions/7884393/can-a-directory-be-added-to-the-class-path-at-runtime
      *
-     * @param s
-     * @throws Exception
+     * @param s Path of the JAR to dynamically load.
+     * @throws Exception If Class is unable to be loaded.
      */
     private void addPath(String s) throws Exception {
         File f = new File(s);
@@ -133,7 +143,7 @@ public class MasterController {
 
     @FXML
     protected void browseConfig(ActionEvent event) {
-        FileChooser.ExtensionFilter configFilter = new FileChooser.ExtensionFilter("config extensions", "*.json", "*.JSON");
+        FileChooser.ExtensionFilter configFilter = new FileChooser.ExtensionFilter("config extensions", "*.json", "*.JSON", "*.properties");
         File configFile = browse(this.browseConfig.getScene().getWindow(), configFilter, "Browse for Config");
 
         if (configFile != null) {
