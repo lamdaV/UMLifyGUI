@@ -24,7 +24,7 @@ public class ConfigurationParser implements IConfigurationParser {
 
     @Override
     public IConfiguration create() throws Exception {
-        String extension = this.configPath.substring(this.configPath.lastIndexOf(".") + 1);
+        String extension = this.configPath.substring(this.configPath.lastIndexOf(".") + 1).toLowerCase();
         IParser parser = this.parserMap.get(extension);
         parser.setConfigPath(this.configPath);
         return parser.create();
@@ -32,6 +32,6 @@ public class ConfigurationParser implements IConfigurationParser {
 
     @Override
     public void addParser(String extension, IParser parser) {
-        this.parserMap.put(extension, parser);
+        this.parserMap.put(extension.toLowerCase(), parser);
     }
 }
